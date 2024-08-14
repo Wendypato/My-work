@@ -1,89 +1,33 @@
 #include <iostream>
-
-
-#include<vector>
-#include<string>
+#include <vector>
 
 using namespace std;
 
-struct Archivo
-{
-    string name;
-};
-
-struct Directorio
-{
-    string name;
-    vector<Archivo> archivos;
-    vector<Directorio> subdirectorio;
-};
-
-bool findFile(Directorio& dir, string& path, string& target){
-    // Caso base
-    for(auto& arch: dir.archivos)
+int buscarMayor(const vector<int>& lista, int valorReferencia){
+    for (int numero : lista)
     {
-        if(arch.name == target)
+        if(numero > valorReferencia)
         {
-            path += "/"+ dir.name;
-            return true;
+            return numero;
         }
     }
 
-    for(auto& subdir : dir.subdirectorio)
-    {
-        string subdirpath = path + "/" + dir.name;
-        if(findFile(subdir, subdirpath, target))
-        {
-            path = subdirpath;
-            return true;
-        }
-    }
-
-    return false;
+    return -1;
 }
 
 int main()
 {
+    vector<int> lista = {5,2,9,7,4,6};
+    int valorReferencia = 5;
 
+    int resultado = buscarMayor(lista, valorReferencia);
 
-    Directorio sistemaDeArchivos = {
-        "root",
-        {
-               {"archivo1.txt"},
-               {"archivo2.txt"}
-        },
-        {
-               {
-                   "subdir1",
-                   {
-                       {"archivo3.txt"},
-                   },
-                   {
-                       {
-                           "subdir2",
-                           {
-                               {"target.txt"},
-                               {"archivo4.txt"}
-                           },
-                           {}
-                       }
-                   }
-               },
-               {"archivo5.txt"}
-        }
-    };
-
-    string target = "archivo3.txt";
-    string path = "";
-
-    cout<<&sistemaDeArchivos<<endl;
-
-    if(findFile(sistemaDeArchivos, path, target))
+    if(resultado != -1)
     {
-        cout<<"Archivo encontrado en: "<<path<<"/"<<target;
+        cout<<"El primer numero mayor es: "<<resultado<<endl;
     }else
     {
-        cout<<"Archivo no encontrado"<<endl;
+        cout<<"No se econtro ningun numero mayor que "<<valorReferencia<<endl;
     }
 
 
